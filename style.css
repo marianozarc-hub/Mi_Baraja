@@ -1,0 +1,84 @@
+body {
+  font-family: system-ui, sans-serif;
+  background: #111;
+  color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+}
+
+h1 {
+  text-align: center;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+button {
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+}
+
+.cards {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap; /* Esto permite que las cartas bajen al siguiente renglón en celulares */
+}
+
+.card {
+  background: #222;
+  border: 1px solid #444;
+  padding: 1rem;
+  width: 150px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.4s, background 0.4s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card.hidden {
+  background: #333;
+  color: transparent;
+  transform: scale(0.95);
+}
+
+.card.hidden strong,
+.card.hidden p {
+  visibility: hidden;
+}
+
+.reading {
+  background: #1b1b1b;
+  padding: 1rem;
+  border-left: 4px solid #888;
+}
+
+button, select {
+  font-size: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: none;
+}
+
+.card {
+  width: 120px; /* Un poco más angostas para que quepan dos o tres en pantalla */
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 12px;
+}

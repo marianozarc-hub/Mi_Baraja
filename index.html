@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baraja Española – Tirada</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="app">
+    <header>
+      <h1>🔮 Baraja Española</h1>
+    </header>
+
+    <section class="controls">
+      <select id="spreadSelect">
+        <option value="one">Carta única</option>
+        <option value="three">Tres cartas (Pasado / Presente / Futuro)</option>
+      </select>
+      <button id="drawBtn">Tirar cartas</button>
+    </section>
+
+    <section id="cards" class="cards"></section>
+
+    <section id="reading" class="reading" aria-live="polite"></section>
+  </main>
+
+  <!-- IMPORTANTE: módulo -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
