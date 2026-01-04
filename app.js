@@ -59,7 +59,22 @@ Object.keys(suits).forEach(suit => {
 
 const spreads = {
   one: { cards: 1, positions: ["Mensaje principal"] },
-  three: { cards: 3, positions: ["Pasado", "Presente", "Futuro"] }
+  three: { cards: 3, positions: ["Pasado", "Presente", "Futuro"] },
+  celtic: { 
+    cards: 10, 
+    positions: [
+      "Situación Actual (El consultante)",
+      "El Obstáculo (Lo que cruza)",
+      "Raíz Inconsciente (El pasado lejano)",
+      "Pasado Reciente",
+      "Corona (Metas y pensamientos conscientes)",
+      "Futuro Inmediato",
+      "Actitud Interna (Cómo te ves)",
+      "Entorno (Influencias externas)",
+      "Esperanzas y Temores",
+      "Resultado Final (Hacia dónde vas)"
+    ] 
+  }
 };
 
 // 3. LÓGICA (Ejecución al cargar)
@@ -109,12 +124,12 @@ window.onload = () => {
 
         if (revealedCount === spread.cards) {
           const dom = analyzeSpread(drawn);
-          const msgs = {
-            oros: "Foco en lo material/dinero.",
-            copas: "Foco en emociones/familia.",
-            espadas: "Foco en la mente/conflictos.",
-            bastos: "Foco en proyectos/energía."
-          };
+         const msgs = {
+  oros: "La energía se manifiesta en la materia. Es momento de sembrar hábitos tangibles y cuidar tu cuerpo o finanzas como templo de tu espíritu.",
+  copas: "El agua emocional predomina. Escucha tu intuición; la respuesta no está en la lógica, sino en cómo resuena en tu corazón.",
+  espadas: "Claridad mental necesaria. Hay un proceso de corte o decisión dolorosa pero liberadora. La verdad es tu mejor herramienta.",
+  bastos: "Fuego creativo y voluntad. Tienes la chispa para iniciar, pero necesitas canalizar esa pasión para no quemarte en el proceso."
+};
           readingDiv.innerHTML += `<hr><p><strong>Lectura Global:</strong> ${msgs[dom]}</p>`;
         }
       };
