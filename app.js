@@ -1,76 +1,60 @@
-// 1. FUNCIONES DE APOYO
-function getNumberName(num) {
-    if (num == 1) return "As";
-    if (num == 10) return "Sota";
-    if (num == 11) return "Caballo";
-    if (num == 12) return "Rey";
-    return num;
-}
-
-function capitalize(text) {
-    return text.charAt(0).toUpperCase() + text.slice(1);
-}
-
-function shuffle(array) {
-    return [...array].sort(() => Math.random() - 0.5);
-}
-
-function analyzeSpread(cards) {
-    const suitCount = {};
-    cards.forEach(card => {
-        suitCount[card.suit] = (suitCount[card.suit] || 0) + 1;
-    });
-    let dominantSuit = null;
-    let max = 0;
-    for (const suit in suitCount) {
-        if (suitCount[suit] > max) {
-            dominantSuit = suit;
-            max = suitCount[suit];
+// 1. DICCIONARIO CON FILOSOFÍA DE LOS DOCUMENTOS
+const cardData = {
+    oros: {
+        info: "Materia, éxito tangible y salud física.",
+        meanings: {
+            1: "Triunfo absoluto y prosperidad", 2: "Amistad, socios o dualidad económica", 
+            3: "Fortuna, expansión y crecimiento", 4: "Estabilidad o regalo inesperado", 
+            5: "Resolución de deudas o problemas", 6: "Generosidad y equilibrio",
+            7: "Tesoro hallado tras el esfuerzo", 10: "Dama práctica y protectora", 
+            11: "Caballero emprendedor (noticias)", 12: "Rey de poder y madurez"
+        }
+    },
+    copas: {
+        info: "Emociones, familia y mundo interior.",
+        meanings: {
+            1: "El Hogar (El Nido) y amor puro", 2: "Pasión, encuentro o reconciliación", 
+            3: "Celebración, bodas o alegrías", 4: "Tedio, estancamiento emocional", 
+            5: "Herencia, pasado o aprendizaje", 6: "Nostalgia y recuerdos dulces",
+            7: "Elección, sueños y fantasías", 10: "Dama amorosa e intuitiva", 
+            11: "Caballero idealista o propuesta", 12: "Rey noble y protector"
+        }
+    },
+    espadas: {
+        info: "Mente, justicia, salud y desafíos.",
+        meanings: {
+            1: "Compromiso legal o decisión firme", 2: "Dualidad, dudas o miedos", 
+            3: "Conflicto, penas o malentendidos", 4: "Reposo, tregua o soledad", 
+            5: "Derrota, obstáculos o desánimo", 6: "Viaje sanador o mudanza mental",
+            7: "Ansiedad o pensamientos intrusivos", 10: "Dama de carácter y claridad", 
+            11: "Noticias rápidas o tensiones", 12: "Hombre de ley o autoridad fría"
+        }
+    },
+    bastos: {
+        info: "Energía, voluntad y realizaciones.",
+        meanings: {
+            1: "Lejanía, viajes o metas largas", 2: "Cercanía, socios o viajes cortos", 
+            3: "Fraternidad y apoyo cercano", 4: "Solidez, hogar y cimientos", 
+            5: "Rivalidad, competencia o lucha", 6: "Logro lento pero seguro",
+            7: "Trabajo duro y perseverancia", 10: "Dama activa y leal", 
+            11: "Cambio de rumbo o noticias", 12: "Rey carismático y líder"
         }
     }
-    return dominantSuit;
-}
-
-// 2. DATOS
-const suits = {
-    oros: "Dinero, trabajo, seguridad",
-    copas: "Emociones, relaciones",
-    espadas: "Conflictos, mente, decisiones",
-    bastos: "Acción, energía, proyectos"
 };
-
-const numbers = {
-    1: "Inicio, oportunidad", 2: "Dualidad, elección", 3: "Crecimiento",
-    4: "Estabilidad", 5: "Conflicto", 6: "Armonía", 7: "Prueba",
-    10: "Mensaje", 11: "Movimiento", 12: "Autoridad"
-};
-
-const deck = [];
-Object.keys(suits).forEach(suit => {
-    Object.keys(numbers).forEach(num => {
-        deck.push({
-            id: `${num}-${suit}`,
-            suit: suit,
-            name: `${getNumberName(num)} de ${capitalize(suit)}`,
-            meaning: `${numbers[num]} en el ámbito de ${suits[suit]}`
-        });
-    });
-});
 
 const spreads = {
-    one: { cards: 1, positions: ["Mensaje principal"] },
+    one: { cards: 1, positions: ["Energía Central"] },
     three: { cards: 3, positions: ["Pasado", "Presente", "Futuro"] },
     celtic: { 
         cards: 10, 
         positions: [
-            "Situación Actual", "El Obstáculo", "Raíz Inconsciente",
-            "Pasado Reciente", "Corona (Consciente)", "Futuro Inmediato",
-            "Actitud Interna", "Entorno", "Esperanzas y Temores", "Resultado Final"
+            "Situación Actual", "El Desafío", "Mente Subconsciente",
+            "Pasado Reciente", "Mente Consciente", "Futuro Inmediato",
+            "Actitud Interna", "Entorno", "Esperanzas/Miedos", "Resultado Final"
         ] 
     }
 };
 
-// 3. LÓGICA PRINCIPAL
 window.onload = () => {
     const exportContainer = document.getElementById("exportContainer");
     const exportBtn = document.getElementById("exportBtn");
@@ -78,75 +62,65 @@ window.onload = () => {
     const spreadSelect = document.getElementById("spreadSelect");
     const cardsDiv = document.getElementById("cards");
     const readingDiv = document.getElementById("reading");
-    const userNameInput = document.getElementById("userName");
+    const userName = document.getElementById("userName");
+
+    const deck = [];
+    Object.keys(cardData).forEach(suit => {
+        for (let n in cardData[suit].meanings) {
+            deck.push({ 
+                suit, 
+                num: n, 
+                name: `${n > 9 ? (n==10?'Sota':n==11?'Caballo':'Rey') : n} de ${suit}`,
+                meaning: cardData[suit].meanings[n]
+            });
+        }
+    });
 
     drawBtn.onclick = () => {
         cardsDiv.innerHTML = "";
         readingDiv.innerHTML = "";
-        let revealedCount = 0;
+        exportContainer.style.display = "none";
+        let revealed = 0;
 
         const spread = spreads[spreadSelect.value];
-        const shuffled = shuffle(deck);
-        const drawn = shuffled.slice(0, spread.cards);
+        const drawn = [...deck].sort(() => Math.random() - 0.5).slice(0, spread.cards);
 
-        drawn.forEach((card, index) => {
-            const isReversed = Math.random() < 0.5;
+        drawn.forEach((card, i) => {
+            const rev = Math.random() < 0.5;
             const cardDiv = document.createElement("div");
             cardDiv.className = "card hidden";
-            cardDiv.innerHTML = `<div style="font-size: 3rem;">🃏</div><p>${spread.positions[index]}</p>`;
+            cardDiv.innerHTML = `<span>🃏</span><p>${spread.positions[i]}</p>`;
 
             cardDiv.onclick = () => {
                 if (!cardDiv.classList.contains("hidden")) return;
-                
                 cardDiv.classList.remove("hidden");
                 const icons = { oros: "🟡", copas: "🍷", espadas: "⚔️", bastos: "🌿" };
-                const symbol = icons[card.suit] || "✨";
-                
                 cardDiv.innerHTML = `
-                    <div style="font-size: 3.5rem; margin-bottom: 10px;">${symbol}</div>
+                    <div style="font-size:3rem">${icons[card.suit]}</div>
                     <strong>${card.name}</strong>
-                    <p style="font-size: 0.7rem; color: #aaa;">${spread.positions[index]}</p>
+                    <p style="font-size:0.7rem">${spread.positions[i]}</p>
                 `;
-                
-                revealedCount++;
-                const orientacion = isReversed ? "Invertida (aspecto bloqueado)" : "Derecha (aspecto fluido)";
 
                 readingDiv.innerHTML += `
-                    <p><strong>${spread.positions[index]}:</strong><br>
-                    ${card.name} (${orientacion}).<br>
-                    ${card.meaning}.</p>
+                    <p><strong>${spread.positions[i]}:</strong> ${card.name} ${rev ? '(Invertida)' : ''}<br>
+                    <em>${card.meaning}</em>. ${rev ? 'Sugiere un bloqueo o introspección.' : 'Energía en flujo positivo.'}</p>
                 `;
 
-                if (revealedCount === spread.cards) {
-                    const dom = analyzeSpread(drawn);
-                    const msgs = {
-                        oros: "Foco en la materia y salud.",
-                        copas: "Foco en emociones y vínculos.",
-                        espadas: "Foco en la mente y claridad.",
-                        bastos: "Foco en acción y proyectos."
-                    };
-                    readingDiv.innerHTML += `<hr><p><strong>Lectura Global:</strong> ${msgs[dom]}</p>`;
-                    if(exportContainer) exportContainer.style.display = "block";
+                if (++revealed === spread.cards) {
+                    readingDiv.innerHTML += `<hr><p><strong>Enfoque de Crecimiento:</strong> Esta lectura destaca temas de ${cardData[card.suit].info}</p>`;
+                    exportContainer.style.display = "block";
                 }
             };
             cardsDiv.appendChild(cardDiv);
         });
     };
 
-    if(exportBtn) {
-        exportBtn.onclick = () => {
-            const nombre = userNameInput.value || "Consultante Anónimo";
-            const timestamp = new Date().toLocaleString();
-            const text = readingDiv.innerText;
-            const content = `BARAJA ESPAÑOLA\nConsultante: ${nombre}\nFecha: ${timestamp}\n\n${text}`;
-            
-            const blob = new Blob([content], { type: "text/plain" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `Lectura_${nombre.replace(/ /g, "_")}.txt`;
-            a.click();
-            URL.revokeObjectURL(url);
-        };
-    }
+    exportBtn.onclick = () => {
+        const doc = `Lectura de ${userName.value || 'Consultante'}\nFecha: ${new Date().toLocaleString()}\n\n${readingDiv.innerText}`;
+        const blob = new Blob([doc], { type: "text/plain" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `Lectura_${userName.value || 'Anonimo'}.txt`;
+        a.click();
+    };
 };
