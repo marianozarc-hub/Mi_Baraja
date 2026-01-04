@@ -1,109 +1,76 @@
+/* =========================================
+   ESTILOS BASE - MODO OSCURO PREMIUM
+   ========================================= */
 body {
-  font-family: system-ui, sans-serif;
-  background: #111;
-  color: #f5f5f5;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #121212; /* Fondo negro profundo para ahorrar batería en OLED */
+  color: #e0e0e0;
   margin: 0;
-  padding: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 .app {
-  max-width: 800px;
-  margin: auto;
-  padding: 2rem;
+  width: 100%;
+  max-width: 500px; /* Tamaño perfecto para la mano en móvil */
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 h1 {
-  text-align: center;
+  color: #d4af37; /* Dorado metálico */
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
 }
 
+/* =========================================
+   CONTROLES (SELECT Y BOTÓN)
+   ========================================= */
 .controls {
   display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-bottom: 2rem;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+select, button {
+  width: 100%;
+  height: 55px; /* Altura ideal para el pulgar */
+  font-size: 1rem;
+  border-radius: 15px;
+  border: 1px solid #333;
+  padding: 0 15px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+select {
+  background-color: #1e1e1e;
+  color: #fff;
+  cursor: pointer;
 }
 
 button {
-  padding: 0.6rem 1rem;
-  cursor: pointer;
-}
-
-.cards {
-  display: grid; /* Cambiamos flex por grid para mejor control en móvil */
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
-  gap: 15px;
-  justify-items: center;
-  padding: 10px;
-  margin-bottom: 2rem;
-}
-
-.card {
-  background: linear-gradient(145deg, #2c2c2c, #1a1a1a); /* Un toque de relieve */
-  border: 2px solid #d4af37; /* Borde dorado tipo baraja */
-  border-radius: 12px;
-  padding: 1.5rem 1rem;
-  width: 140px;
-  min-height: 200px;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Mejora para los botones en Android (fáciles de tocar) */
-button, select {
-  width: 100%; /* Que ocupen el ancho en el móvil */
-  max-width: 300px;
-  height: 50px;
-  font-size: 1.1rem;
-  border-radius: 25px;
-  margin: 5px 0;
-}
-.card {
-  background: #222;
-  border: 1px solid #444;
-  padding: 1rem;
-  width: 150px;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.4s, background 0.4s;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-}
-
-.card.hidden {
-  background: #333;
-  color: transparent;
-  transform: scale(0.95);
-}
-
-.card.hidden strong,
-.card.hidden p {
-  visibility: hidden;
-}
-
-.reading {
-  background: #1b1b1b;
-  padding: 1rem;
-  border-left: 4px solid #888;
-}
-
-button, select {
-  font-size: 1rem;
-  padding: 0.8rem;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #d4af37, #b8860b);
+  color: #000;
+  font-weight: bold;
   border: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
 }
 
-.card {
-  width: 120px; /* Un poco más angostas para que quepan dos o tres en pantalla */
-  min-height: 160px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-radius: 12px;
+button:active {
+  transform: scale(0.96); /* Feedback táctil al presionar */
+  filter: brightness(0.8);
 }
+
+/* =========================================
+   CONTENEDOR DE CARTAS (RESPONSIVE)
+   ========================================= */
+.cards {
+  display: grid;
