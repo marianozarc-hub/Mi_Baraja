@@ -29,13 +29,38 @@ button {
 }
 
 .cards {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
+  display: grid; /* Cambiamos flex por grid para mejor control en móvil */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+  gap: 15px;
+  justify-items: center;
+  padding: 10px;
   margin-bottom: 2rem;
-  flex-wrap: wrap; /* Esto permite que las cartas bajen al siguiente renglón en celulares */
 }
 
+.card {
+  background: linear-gradient(145deg, #2c2c2c, #1a1a1a); /* Un toque de relieve */
+  border: 2px solid #d4af37; /* Borde dorado tipo baraja */
+  border-radius: 12px;
+  padding: 1.5rem 1rem;
+  width: 140px;
+  min-height: 200px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Mejora para los botones en Android (fáciles de tocar) */
+button, select {
+  width: 100%; /* Que ocupen el ancho en el móvil */
+  max-width: 300px;
+  height: 50px;
+  font-size: 1.1rem;
+  border-radius: 25px;
+  margin: 5px 0;
+}
 .card {
   background: #222;
   border: 1px solid #444;
