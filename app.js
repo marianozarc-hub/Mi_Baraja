@@ -136,4 +136,32 @@ window.onload = () => {
       cardsDiv.appendChild(cardDiv);
     });
   };
+  // --- LÓGICA PARA EXPORTAR ---
+  const exportBtn = document.getElementById("exportBtn");
+  const exportContainer = document.getElementById("exportContainer");
+
+  exportBtn.onclick = () => {
+    // 1. Recopilamos el texto de la lectura
+    const readingText = document.getElementById("reading").innerText;
+    const timestamp = new Date().toLocaleString();
+    const finalContent = `LECTURA DE BARAJA ESPAÑOLA\nFecha: ${timestamp}\n\n${readingText}\n\nGenerado por Mi Baraja App`;
+
+    // 2. Creamos un "link" invisible para descargar el archivo
+    const blob = new Blob([finalContent], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    
+    a.href = url;
+    a.download = `Lectura_Baraja_${new Date().getTime()}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    
+    // 3. Limpiamos
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  // Esta línea asegura que el botón de exportar aparezca solo cuando hay una lectura lista
+  // Debes buscar el final de drawBtn.onclick y añadir:
+  // exportContainer.style.display = "block";
 };
