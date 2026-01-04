@@ -84,13 +84,19 @@ window.onload = () => {
       const cardDiv = document.createElement("div");
       cardDiv.className = "card hidden";
       // Arreglo de las etiquetas HTML internas:
-      cardDiv.innerHTML = `<strong>?</strong><p>${spread.positions[index]}</p>`;
+     cardDiv.innerHTML = `<div style="font-size: 3rem;">🃏</div><p>${spread.positions[index]}</p>`;
 
       cardDiv.onclick = () => {
         if (!cardDiv.classList.contains("hidden")) return;
         
         cardDiv.classList.remove("hidden");
-        cardDiv.innerHTML = `<strong>${card.name}</strong><p>${spread.positions[index]}</p>`;
+       const icons = { oros: "🟡", copas: "🍷", espadas: "⚔️", bastos: "🌿" };
+        const symbol = icons[card.suit] || "✨";
+        cardDiv.innerHTML = `
+          <div style="font-size: 3.5rem; margin-bottom: 10px;">${symbol}</div>
+          <strong>${card.name}</strong>
+          <p style="font-size: 0.8rem; margin-top: 5px; color: #aaa;">${spread.positions[index]}</p>
+        `;
         revealedCount++;
 
         const orientacion = card.reversed ? "Invertida (aspecto bloqueado)" : "Derecha (aspecto fluido)";
