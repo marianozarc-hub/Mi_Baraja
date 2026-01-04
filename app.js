@@ -79,12 +79,16 @@ const spreads = {
 
 // 3. LÓGICA (Ejecución al cargar)
 window.onload = () => {
+  // DECLARACIONES ÚNICAS
   const exportContainer = document.getElementById("exportContainer");
-  if(exportContainer) exportContainer.style.display = "none";
+  const exportBtn = document.getElementById("exportBtn");
   const drawBtn = document.getElementById("drawBtn");
   const spreadSelect = document.getElementById("spreadSelect");
   const cardsDiv = document.getElementById("cards");
   const readingDiv = document.getElementById("reading");
+
+  // Ocultar exportar al inicio
+  if(exportContainer) exportContainer.style.display = "none";
 
   drawBtn.onclick = () => {
     cardsDiv.innerHTML = "";
@@ -100,20 +104,21 @@ window.onload = () => {
       
       const cardDiv = document.createElement("div");
       cardDiv.className = "card hidden";
-      // Arreglo de las etiquetas HTML internas:
-     cardDiv.innerHTML = `<div style="font-size: 3rem;">🃏</div><p>${spread.positions[index]}</p>`;
+      cardDiv.innerHTML = `<div style="font-size: 3rem;">🃏</div><p>${spread.positions[index]}</p>`;
 
       cardDiv.onclick = () => {
         if (!cardDiv.classList.contains("hidden")) return;
         
         cardDiv.classList.remove("hidden");
-       const icons = { oros: "🟡", copas: "🍷", espadas: "⚔️", bastos: "🌿" };
+        const icons = { oros: "🟡", copas: "🍷", espadas: "⚔️", bastos: "🌿" };
         const symbol = icons[card.suit] || "✨";
+        
         cardDiv.innerHTML = `
           <div style="font-size: 3.5rem; margin-bottom: 10px;">${symbol}</div>
           <strong>${card.name}</strong>
           <p style="font-size: 0.8rem; margin-top: 5px; color: #aaa;">${spread.positions[index]}</p>
         `;
+        
         revealedCount++;
 
         const orientacion = card.reversed ? "Invertida (aspecto bloqueado)" : "Derecha (aspecto fluido)";
@@ -126,65 +131,38 @@ window.onload = () => {
 
         if (revealedCount === spread.cards) {
           const dom = analyzeSpread(drawn);
-         const msgs = {
-  oros: "La energía se manifiesta en la materia. Es momento de sembrar hábitos tangibles y cuidar tu cuerpo o finanzas como templo de tu espíritu.",
-  copas: "El agua emocional predomina. Escucha tu intuición; la respuesta no está en la lógica, sino en cómo resuena en tu corazón.",
-  espadas: "Claridad mental necesaria. Hay un proceso de corte o decisión dolorosa pero liberadora. La verdad es tu mejor herramienta.",
-  bastos: "Fuego creativo y voluntad. Tienes la chispa para iniciar, pero necesitas canalizar esa pasión para no quemarte en el proceso."
-};
+          const msgs = {
+            oros: "La energía se manifiesta en la materia. Es momento de sembrar hábitos tangibles y cuidar tu cuerpo o finanzas como templo de tu espíritu.",
+            copas: "El agua emocional predomina. Escucha tu intuición; la respuesta no está en la lógica, sino en cómo resuena en tu corazón.",
+            espadas: "Claridad mental necesaria. Hay un proceso de corte o decisión dolorosa pero liberadora. La verdad es tu mejor herramienta.",
+            bastos: "Fuego creativo y voluntad. Tienes la chispa para iniciar, pero necesitas canalizar esa pasión para no quemarte en el proceso."
+          };
           readingDiv.innerHTML += `<hr><p><strong>Lectura Global:</strong> ${msgs[dom]}</p>`;
         }
       };
       cardsDiv.appendChild(cardDiv);
-
-// --- AQUÍ LA NOTA DEL PROFE ---
-    // Hacemos visible el contenedor del botón de exportar
-    if(exportContainer) exportContainer.style.display = "block";
-      
     });
-  };
-  // --- LÓGICA PARA EXPORTAR ---
-  const exportBtn = document.getElementById("exportBtn");
-  const exportContainer = document.getElementById("exportContainer");
 
-  exportBtn.onclick = () => {
-    // 1. Recopilamos el texto de la lectura
-    const readingText = document.getElementById("reading").innerText;
-    const timestamp = new Date().toLocaleString();
-    const finalContent = `LECTURA DE BARAJA ESPAÑOLA\nFecha: ${timestamp}\n\n${readingText}\n\nGenerado por Mi Baraja App`;
-
-    // 2. Creamos un "link" invisible para descargar el archivo
-    const blob = new Blob([finalContent], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    
-    a.href = url;
-    a.download = `Lectura_Baraja_${new Date().getTime()}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    
-    // 3. Limpiamos
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    // MOSTRAR BOTÓN DE EXPORTAR DESPUÉS DE GENERAR CARTAS
+    if(exportContainer) exportContainer.style.display = "block";
   };
 
-  // Esta línea asegura que el botón de exportar aparezca solo cuando hay una lectura lista
-  // Debes buscar el final de drawBtn.onclick y añadir:
-  // exportContainer.style.display = "block";
-const exportBtn = document.getElementById("exportBtn");
+  // LÓGICA DE EXPORTAR (Sin re-declarar variables)
   if(exportBtn) {
     exportBtn.onclick = () => {
-      const readingText = document.getElementById("reading").innerText;
+      const readingText = readingDiv.innerText;
       const timestamp = new Date().toLocaleString();
-      const finalContent = `LECTURA DE BARAJA ESPAÑOLA\nFecha: ${timestamp}\n\n${readingText}`;
+      const finalContent = `LECTURA DE BARAJA ESPAÑOLA\nFecha: ${timestamp}\n\n${readingText}\n\nGenerado por Mi Baraja App`;
+
       const blob = new Blob([finalContent], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `Lectura_${new Date().getTime()}.txt`;
+      a.download = `Lectura_Baraja_${new Date().getTime()}.txt`;
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
       URL.revokeObjectURL(url);
     };
   }
-  
 };
