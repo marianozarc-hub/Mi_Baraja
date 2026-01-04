@@ -152,7 +152,16 @@ window.onload = () => {
     exportBtn.onclick = () => {
       const readingText = readingDiv.innerText;
       const timestamp = new Date().toLocaleString();
-      const finalContent = `LECTURA DE BARAJA ESPAÑOLA\nFecha: ${timestamp}\n\n${readingText}\n\nGenerado por Mi Baraja App`;
+      const nameInput = document.getElementById("userName").value;
+      const nombre = nameInput ? nameInput : "Consultante Anónimo";
+      const timestamp = new Date().toLocaleString();
+      
+      const finalContent = `LECTURA DE BARAJA ESPAÑOLA\n` +
+                           `Consultante: ${nombre}\n` +
+                           `Fecha: ${timestamp}\n` +
+                           `------------------------------\n\n` +
+                           `${readingText}\n\n` +
+                           `Generado por Mi Baraja App`;
 
       const blob = new Blob([finalContent], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
