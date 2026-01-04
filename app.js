@@ -79,6 +79,8 @@ const spreads = {
 
 // 3. LÓGICA (Ejecución al cargar)
 window.onload = () => {
+  const exportContainer = document.getElementById("exportContainer");
+  if(exportContainer) exportContainer.style.display = "none";
   const drawBtn = document.getElementById("drawBtn");
   const spreadSelect = document.getElementById("spreadSelect");
   const cardsDiv = document.getElementById("cards");
@@ -134,6 +136,11 @@ window.onload = () => {
         }
       };
       cardsDiv.appendChild(cardDiv);
+
+// --- AQUÍ LA NOTA DEL PROFE ---
+    // Hacemos visible el contenedor del botón de exportar
+    if(exportContainer) exportContainer.style.display = "block";
+      
     });
   };
   // --- LÓGICA PARA EXPORTAR ---
@@ -164,4 +171,20 @@ window.onload = () => {
   // Esta línea asegura que el botón de exportar aparezca solo cuando hay una lectura lista
   // Debes buscar el final de drawBtn.onclick y añadir:
   // exportContainer.style.display = "block";
+const exportBtn = document.getElementById("exportBtn");
+  if(exportBtn) {
+    exportBtn.onclick = () => {
+      const readingText = document.getElementById("reading").innerText;
+      const timestamp = new Date().toLocaleString();
+      const finalContent = `LECTURA DE BARAJA ESPAÑOLA\nFecha: ${timestamp}\n\n${readingText}`;
+      const blob = new Blob([finalContent], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Lectura_${new Date().getTime()}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+  }
+  
 };
