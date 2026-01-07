@@ -10,25 +10,26 @@
 </head>
 <body>
     <main class="app">
-        <h1>🔮 ¡Hola! ¿Vemos qué te dicen las cartas hoy?</h1>
+        <h1>🔮 Tu Guía Amiga</h1>
         
         <section class="controls">
             <input type="text" id="userName" placeholder="Dime tu nombre...">
+            <textarea id="userQuestion" placeholder="Escribe aquí tu pregunta o duda..." rows="2"></textarea>
             
             <select id="spreadSelect">
                 <option value="one">Un consejo rápido (1 carta)</option>
-                <option value="three">Pasado, Presente y Futuro (3 cartas)</option>
-                <option value="celtic">Lectura profunda (Cruz Celta)</option>
+                <option value="three">Análisis de la situación (3 cartas)</option>
+                <option value="celtic">Guía profunda (10 cartas)</option>
             </select>
             
-            <button id="drawBtn">Echar las cartas</button>
+            <button id="drawBtn">Consultar a las cartas</button>
         </section>
 
         <section id="cards" class="cards"></section>
         <section id="reading" class="reading"></section>
 
         <div id="exportContainer" style="margin-top: 20px; display: none;">
-            <button id="exportBtn" style="background: #2ecc71; color: white;">💾 Guardar nuestra charla</button>
+            <button id="exportBtn" style="background: #2ecc71; color: white;">💾 Guardar este consejo</button>
         </div>
     </main>
     <script src="app.js"></script>
